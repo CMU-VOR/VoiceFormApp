@@ -58,10 +58,15 @@ namespace workOrderForm
             // System.Diagnostics.Debug.WriteLine(plane);
 
             this.Hide();
+            
             var wf = new WorkOrderForm(name, plane);
             // set new close event here
             wf.FormClosed += (s, args) => this.Close();
             wf.Show();
+        }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            recognizer.Dispose();
         }
         private Grammar CreateLogInGrammar()
         {
