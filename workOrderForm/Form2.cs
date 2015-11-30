@@ -194,6 +194,21 @@ namespace workOrderForm
                     using (HttpContent content = response.Content)
                     {
                         label1.Text = content.ReadAsStringAsync().Result;
+                        if (content.ReadAsStringAsync().Result.ToString() == "Success")
+                        {
+                            string s = "";
+                            foreach (KeyValuePair<string, string> item in data)
+                             {
+                                s += item.Key;
+                                s += ": ";
+                                s += item.Value;
+                                s += "\r\n";
+                            }
+
+                            s += "Successully saved in server!";
+                            MessageBox.Show(s);
+                        }
+                        
                     }
                 }
             }
@@ -209,6 +224,8 @@ namespace workOrderForm
         {
             string uri = "http://boeing.elasticbeanstalk.com/vor/post_form/";
             post_form(uri);
+           //MessageBox.Show("Successully saved in server!");
+
         }
 
         private void button1_Click(object sender, EventArgs e)
