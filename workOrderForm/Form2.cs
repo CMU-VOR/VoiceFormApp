@@ -24,14 +24,32 @@ namespace workOrderForm
         public WorkOrderForm(String Name, String Plane)
         {
             InitializeComponent();
+            name = Name;
+            plane = Plane;
             NameLabel.Text = NameLabel.Text + Name;
             PlaneLabel.Text = PlaneLabel.Text + Plane;
+            generateComponents(Name, Plane);
+        }
+        async void generateComponents(String Name, String Plane)
+        {
             string uri = "http://boeing.elasticbeanstalk.com/vor/get_form/";
-            get_form(uri);
+            await get_form(uri);
 
+            foreach (Control p in panel1.Controls)
+            {
+                //Console.WriteLine(p.Name);
+                if (p.Name == "user")
+                {
+                    p.Text = Name;
+                }
+                else if (p.Name == "plane")
+                {
+                    p.Text = Plane;
+                }
+            }
         }
 
-        async void get_form(String url)
+        async Task get_form(String url)
         {
 
             using (HttpClient client = new HttpClient())
@@ -79,9 +97,19 @@ namespace workOrderForm
                                     select.Items.Add(choice["value"].ToString());
                                     dictionary.Add(choice["value"].ToString(), choice["id"].ToString());
                                 }
+                                if (select.Name != "plane")
+                                {
+                                    Button btn = new Button();
+                                    btn.Location = new System.Drawing.Point(xLabel + 350, yLabel);
+                                    btn.Size = new System.Drawing.Size(50, 28);
+                                    btn.Text = "P";
+                                    panel1.Controls.Add(btn);
+                                }   
                                 panel1.Controls.Add(select);
                                 panel1.Controls.Add(label);
                                 controls.Add(select);
+                                
+
                             }
                             else if (field_type.Equals("Textarea"))
                             {
@@ -143,11 +171,9 @@ namespace workOrderForm
             string uri = "http://boeing.elasticbeanstalk.com/vor/post_form/";
             post_form(uri);
         }
+
+
     }
-    public class form
-    {
-        public String form_name { get; set; }
-        public IList<String> fields { get; set; }
-    }
+
 
 }

@@ -57,6 +57,7 @@ namespace workOrderForm
             // System.Diagnostics.Debug.WriteLine(name);
             // System.Diagnostics.Debug.WriteLine(plane);
 
+
             this.Hide();
             
             var wf = new WorkOrderForm(name, plane);
@@ -70,9 +71,9 @@ namespace workOrderForm
         }
         private Grammar CreateLogInGrammar()
         {
-            Choices nameChoices = new Choices(new string[] { "Ravi", "Ariel", "Bhiksha" });
+            Choices nameChoices = new Choices(new string[] { "Ravi", "Ariel", "Bhiksha", "Michael", "Nick", "Sansa" });
             GrammarBuilder nameElement = new GrammarBuilder(nameChoices);
-            Choices planeChoices = new Choices(new string[] { "787", "777", "747" });
+            Choices planeChoices = new Choices(new string[] { "787", "747" });
             GrammarBuilder planeElement = new GrammarBuilder(planeChoices);
             // Create grammar builders for the two versions of the phrase.
             GrammarBuilder namePhrase = new GrammarBuilder("The customer name is");
