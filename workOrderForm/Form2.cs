@@ -72,9 +72,9 @@ namespace workOrderForm
             Choices jobTypeChoices = new Choices(Text2.ToArray());
             GrammarBuilder jobTypeElement = new GrammarBuilder(jobTypeChoices);
             // Create grammar builders for the two versions of the phrase.
-            GrammarBuilder locationPhrase = new GrammarBuilder("The location of the plane got a problem is");
+            GrammarBuilder locationPhrase = new GrammarBuilder("The location of the problem is at");
             locationPhrase.Append(locationElement);
-            GrammarBuilder jobTypePhrase = new GrammarBuilder("The type of job the plane need is");
+            GrammarBuilder jobTypePhrase = new GrammarBuilder("The type of job is");
             jobTypePhrase.Append(jobTypeElement);
 
             // Create a Choices for the two alternative phrases, convert the Choices
@@ -256,7 +256,7 @@ namespace workOrderForm
                 }
                 else if (p.Name == "description")
                 {
-                    p.Text += e.Result.Text;
+                    p.Text += e.Result.Text + ". ";
                 }
             }
         }
