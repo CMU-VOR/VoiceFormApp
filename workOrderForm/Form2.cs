@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Speech.Recognition;
 
 namespace workOrderForm
 {
@@ -29,7 +30,10 @@ namespace workOrderForm
             NameLabel.Text = NameLabel.Text + Name;
             PlaneLabel.Text = PlaneLabel.Text + Plane;
             generateComponents(Name, Plane);
+
         }
+        List<string> Text1 = new List<string>();
+        List<string> Text2 = new List<string>();
         async void generateComponents(String Name, String Plane)
         {
             string uri = "http://boeing.elasticbeanstalk.com/vor/get_form/";
@@ -46,8 +50,43 @@ namespace workOrderForm
                 {
                     p.Text = Plane;
                 }
+                else if (p.Name == "location")
+                {
+                    ComboBox t = (ComboBox)p;
+                    foreach (var item in t.Items)
+                        Text1.Add(item.ToString());
+                }
+                else if (p.Name == "job_type")
+                {
+                    ComboBox t = (ComboBox)p;
+                    foreach (var item in t.Items)
+                        Text2.Add(item.ToString());
+                }
             }
+  
         }
+        private Grammar CreateFormGrammar()
+        {
+            Choices locationChoices = new Choices(Text1.ToArray());
+            GrammarBuilder locationElement = new GrammarBuilder(locationChoices);
+            Choices jobTypeChoices = new Choices(Text2.ToArray());
+            GrammarBuilder jobTypeElement = new GrammarBuilder(jobTypeChoices);
+            // Create grammar builders for the two versions of the phrase.
+            GrammarBuilder locationPhrase = new GrammarBuilder("The location of the plane got a problem is");
+            locationPhrase.Append(locationElement);
+            GrammarBuilder jobTypePhrase = new GrammarBuilder("The type of job the plane need is");
+            jobTypePhrase.Append(jobTypeElement);
+
+            // Create a Choices for the two alternative phrases, convert the Choices
+            // to a GrammarBuilder, and construct the grammar from the result.
+            Choices bothChoices = new Choices(new GrammarBuilder[] { locationPhrase, jobTypePhrase });
+            Grammar grammar = new Grammar((GrammarBuilder)bothChoices);
+            grammar.Name = "FormGrammar";
+            return grammar;
+        }
+        SpeechRecognizer recognizer;
+        Grammar g;
+
 
         async Task get_form(String url)
         {
@@ -97,14 +136,14 @@ namespace workOrderForm
                                     select.Items.Add(choice["value"].ToString());
                                     dictionary.Add(choice["value"].ToString(), choice["id"].ToString());
                                 }
-                                if (select.Name != "plane")
-                                {
-                                    Button btn = new Button();
-                                    btn.Location = new System.Drawing.Point(xLabel + 350, yLabel);
-                                    btn.Size = new System.Drawing.Size(50, 28);
-                                    btn.Text = "P";
-                                    panel1.Controls.Add(btn);
-                                }   
+                                //if (select.Name != "plane")
+                                //{
+                                //    Button btn = new Button();
+                                //    btn.Location = new System.Drawing.Point(xLabel + 350, yLabel);
+                                //    btn.Size = new System.Drawing.Size(50, 28);
+                                //    btn.Text = "P";
+                                //    panel1.Controls.Add(btn);
+                                //}   
                                 panel1.Controls.Add(select);
                                 panel1.Controls.Add(label);
                                 controls.Add(select);
@@ -172,7 +211,55 @@ namespace workOrderForm
             post_form(uri);
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            recognizer = new SpeechRecognizer();
+            g = CreateFormGrammar();
+            recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(location_ser_SpeechRecognized);
+            recognizer.LoadGrammar(g);
+        }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            recognizer = new SpeechRecognizer();
+            g = CreateFormGrammar();
+            recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(jobType_ser_SpeechRecognized);
+            recognizer.LoadGrammar(g);
+        }
+
+        void location_ser_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            Console.WriteLine("Speech recognized:  " + e.Result.Text);
+            MessageBox.Show("Speech recognized: " + e.Result.Text);
+            foreach (Control p in panel1.Controls)
+            {
+                if (p.Name == "location")
+                {
+                    p.Text = e.Result.Text.Split().Last();
+                }         
+                else if (p.Name == "description")
+                {
+                    p.Text = e.Result.Text + ". ";
+                }
+            }
+
+        }
+        void jobType_ser_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            Console.WriteLine("Speech recognized:  " + e.Result.Text);
+            MessageBox.Show("Speech recognized: " + e.Result.Text);
+            foreach (Control p in panel1.Controls)
+            {
+                if (p.Name == "job_type")
+                {
+                    p.Text = e.Result.Text.Split().Last();
+                }
+                else if (p.Name == "description")
+                {
+                    p.Text += e.Result.Text;
+                }
+            }
+        }
     }
 
 
