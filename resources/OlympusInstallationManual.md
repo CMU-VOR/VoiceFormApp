@@ -22,13 +22,14 @@
 	In order to download the Olympus package, you need to use the **TortoiseSVN** that has just been installed. Go to the folder that you want the Olympus package to be located, for example the /Documents folder, right click at any blank place and select **SVN Checkout**, the GUI of TortoiseSVN will appear. Type in the following link, then the Olympus package will be downloaded to the current directory.
 
 	```
-	http://trac.speech.cs.cmu.edu/svn/olympus/tags/2.6.1
+	svn co http://trac.speech.cs.cmu.edu/svn/olympus/tags/2.6.1
 	```
 
-3. Install the **Win32::RunAsAdmin** module with the following command line.
+3. Install the **Win32::RunAsAdmin** and **Win32::Env** module with the following command line.
 	
 	```
 	ppm install Win32::RunAsAdmin
+	ppm install Win32::Env
 	```
 	
 4. Open the command line tool **Developer Command Prompt for VS2012** (Developer Command Prompt for VS2015 is not acceptable) and select **Run As Administrator**, then navigate into the Olympus folder. Use the following command to install the Olympus package.
@@ -38,6 +39,9 @@
 	```
 	
 	System will automatically compile and install the Olympus package and related modules.
+	The command line would give feedback on installing process, which would also be saved to **build.log**.
+	
+	If there is error with **CMake**, use **CMake 2.8.10** instead of the newest released version 
 	
 
 #####Test and Sample Code
