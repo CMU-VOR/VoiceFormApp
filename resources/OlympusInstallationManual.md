@@ -5,7 +5,7 @@
 * Windows 10 Education [<https://www.cmu.edu/computing/software/all/dreamspark/>]
 * Visual Studio 2012 [<https://www.microsoft.com/en-us/download/details.aspx?id=34673>]
 * TortoiseSVN [<http://tortoisesvn.tigris.org/>]
-* Kitware's CMake [<https://cmake.org/download/>]
+* Kitware's CMake 2.8.3 [<http://pkgs.fedoraproject.org/repo/pkgs/cmake/>]
 * AvtiveState Perl [<http://www.activestate.com/activeperl>]
 * Python2.7 [<https://www.python.org/download/releases/2.7/>]
 * NetBeans with JDK 8 [<http://www.oracle.com/technetwork/java/javase/downloads/index.html>]
