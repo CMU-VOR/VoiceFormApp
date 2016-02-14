@@ -41,7 +41,7 @@
 	System will automatically compile and install the Olympus package and related modules.
 	The command line would give feedback on installing process, which would also be saved to **build.log**.
 	
-	If there is error with **CMake**, use **CMake 2.8.10** instead of the newest released version 
+	If there is error with **CMake**, use **CMake 2.8.3** instead of the newest released version 
 	
 
 #####Test and Sample Code
