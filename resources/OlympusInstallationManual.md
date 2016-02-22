@@ -5,7 +5,7 @@
 * Windows 10 Education [<https://www.cmu.edu/computing/software/all/dreamspark/>]
 * Visual Studio 2012 [<https://www.microsoft.com/en-us/download/details.aspx?id=34673>]
 * TortoiseSVN [<http://tortoisesvn.tigris.org/>]
-* Kitware's CMake 2.8.3 [<http://pkgs.fedoraproject.org/repo/pkgs/cmake/>]
+* Kitware's CMake 2.8.10-rc3 [<https://cmake.org/files/dev/?C=M;O=D>]
 * AvtiveState Perl [<http://www.activestate.com/activeperl>]
 * Python2.7 [<https://www.python.org/download/releases/2.7/>]
 * NetBeans with JDK 8 [<http://www.oracle.com/technetwork/java/javase/downloads/index.html>]
@@ -40,9 +40,6 @@
 	
 	System will automatically compile and install the Olympus package and related modules.
 	The command line would give feedback on installing process, which would also be saved to **build.log**.
-	
-	If there is error with **CMake**, use **CMake 2.8.3** instead of the newest released version 
-	
 
 #####Test and Sample Code
 
